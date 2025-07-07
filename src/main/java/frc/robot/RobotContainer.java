@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.time.Instant;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -13,6 +15,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -54,12 +57,17 @@ public class RobotContainer {
   private void configureBindings() {
 
     Command KickAlgae = new SequentialCommandGroup(
-
-    new InstantCommand(() ->{
-      kickerSub.setKickerSetpoint(150);
-
-    }
-    ));
+    new InstantCommand(() -> {
+      kickerSub.setIsHoldPosition(kickerSub.getIsHoldPostion());
+    }),
+      new ConditionalCommand(
+        new InstantCommand(() -> {
+          kickerSub.setKickerSetpoint(160);
+        }),
+        new InstantCommand(() -> {
+          kickerSub.setKickerSetpoint(0);}),
+          () -> {return kickerSub.getIsHoldPostion();}
+      ));
 
     NamedCommands.registerCommand("KickAlgae", KickAlgae);
     

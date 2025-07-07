@@ -119,5 +119,16 @@ public final class Constants {
     public static final int kDriverFieldOrientedButtonIdx = 1;
   }
 
+  public final static class kickerConstants{
+
+    public static final int kKickerMotorPort = 0;
+
+    public static final double kKickerControllerKp = 0;
+    public static final double kKickerControllerKi = 0;
+    public static final double kKickerControllerKd = 0;
+
+    public static final double kKickerMaxPower = 0.8;
+  }
+
   
 }
